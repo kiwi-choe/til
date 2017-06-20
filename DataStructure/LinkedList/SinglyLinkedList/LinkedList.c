@@ -1,85 +1,131 @@
 #include "LinkedList.h"
 
-// Create node
-Node*	createNode(ElementType newData) {
-	Node* newnode = (Node*)malloc(sizeof(Node));
+Node* create(ElementType newData) 
+{
+	Node* newNode = (Node*) malloc(sizeof(Node));
 
-	// Save data
-	newnode->Data = newData;
-	// Initialize pointer of nextNode to NULL
-	newnode->NextNode = NULL;
-	// Return node address
-	return newnode;
+	newNode->Data = newData;
+	newNode->Next = NULL;
+
+	return newNode;
 }
 
-void	destroyNode(Node* node) {
+void destroyNode(Node* node) 
+{
 	free(node);
 }
 
-void	appendNode(Node** head, Node* newnode) {
-	// if headnode is null, newnode become head
-	if( (*head) == NULL ) {
-		*head = newnode;
-	}
-	else {
-		// find tail and connect newnode
-		Node* tail = (*head);
-		while(tail->NextNode != NULL) {
-			tail = tail->NextNode;
-		}
-
-		tail->NextNode = newnode;
-	}
+void insertAfter(Node* current, Node* newNode)
+{
+	newNode->Next = current->Next;
+	current->Next = newNode;
 }
 
-void	insertAfter(Node* current, Node* newnode) {
-	newnode->NextNode = current->NextNode;
-	current->NextNode = newnode;
-}
-
-void	insertNewHead(Node** head, Node* newhead) {
-	if(*head == NULL) {
-		(*head) = newhead;
-	}
-	else {
-		newhead->NextNode = (*head);
-		(*head) = newhead;
-	}
-}
-
-// with Drawing again
-void	removeNode(Node** head, Node* remove) {
-	if(*head == remove) {
-		*head = remove->NextNode;
-	}
-	else {
-		Node* node = *head;
-		while(node != NULL && node->NextNode != remove) {
-			node = node->NextNode;
-		}
-		if(node != NULL) {
-			node->NextNode = remove->NextNode;	
-		}
-	}
-}
-
-Node*	getNodeAt(Node* head, int location) {
-
+Node* getNodeAt(Node* head, int location)
+{
 	Node* current = head;
-	// Memorize (--location)>=0
-	while(current!=NULL && (--location) >= 0) {
-		current = current->NextNode;
+	while(current != NULL && (location--) > 0) 
+	{
+		current = current->Next;
 	}
 	return current;
 }
 
-int 	getNodeCount(Node* head) {
-	
+int getNodeCount(Node* head)
+{
 	int count = 0;
-	Node* node = head;
-	while(node!=NULL) {
-		node = node->NextNode;
+	Node* current = head;
+	while(current != NULL) 
+	{
+		current = current->Next;
 		count++;
 	}
-	return 	count;
+	return count;
+}
+
+void append(Node** head, Node* newnode)
+{
+	if((*head) == NULL) 
+	{
+		*head = newnode;
+	}
+	else 
+	{
+		// Find Tail
+		Node* tail = (*head);
+		while(tail->Next != NULL) 
+		{
+			tail = tail->Next;
+		}
+		tail->Next = newnode;
+	}
+}
+
+void insertNewHead(Node** head, Node* newHead) 
+{
+	if((*head) == NULL) 
+	{
+		(*head) = newHead;
+	}
+	else 
+	{
+		newHead->Next = (*head);
+		(*head) = newHead;
+	}
+}
+
+void removeNode(Node** head, Node* remove)
+{
+	if((*head) == remove) 
+	{
+		(*head) = remove->Next;
+	}
+	else 
+	{
+		Node* current = (*head);
+		while(current != NULL && current->Next != remove) 
+		{
+			current = current->Next;
+		}
+		current->Next = remove->Next;
+	}
+}
+
+void insertBefore(Node** head, Node* current, Node* newHead) 
+{
+	if((*head) == NULL) 
+	{
+		(*head) = newHead;
+	}
+	else if((*head) == current)
+	{
+		newHead->Next = (*head);
+		(*head) = newHead;
+	}
+	else 
+	{
+		Node* currentBefore = (*head);
+		while(current != NULL && currentBefore->Next != current)
+		{
+			currentBefore = currentBefore->Next;
+		}
+		if(current != NULL) 
+		{
+			newHead->Next = current;
+			currentBefore->Next = newHead;
+		}
+	}
+}
+
+void destroyAllNodes(Node** list) 
+{
+	Node* tail = (*list);
+	while(tail->Next != NULL)
+	{
+		removeNode(list, tail);
+		destroyNode(tail);
+		tail = tail->Next;
+	}
+	removeNode(list, tail);
+	destroyNode(tail);
 }

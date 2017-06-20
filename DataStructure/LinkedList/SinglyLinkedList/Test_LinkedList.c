@@ -1,55 +1,69 @@
 #include "LinkedList.h"
 
-int main(void) {
+void displayList(Node* list) 
+{
+	int count = 0;
+	int i = 0;
+	Node* current = NULL;
+
+	count = getNodeCount(list);
+	for(i=0;i<count;i++)
+	{
+		current = getNodeAt(list, i);
+		printf("List[%d]: %d\n", i, current->Data);
+	}
+}
+
+int main(void) 
+{
 	int i = 0;
 	int count = 0;
 	Node* list = NULL;
 	Node* current = NULL;
-	Node* newnode = NULL;
+	Node* newNode = NULL;
 
-	// Add 5 nodes
-	for(i=0; i<5; i++) {
-		newnode = createNode(i);
-		appendNode(&list, newnode);
+	// create 5 new nodes
+	for(i=0;i<5;i++) 
+	{
+		newNode = create(i);
+		append(&list, newNode);
 	}
 
-	newnode = createNode(-1);
-	insertNewHead(&list, newnode);
+	newNode = create(-1);
+	insertNewHead(&list, newNode);
 
-	newnode = createNode(-2);
-	insertNewHead(&list, newnode);
+	newNode = create(-2);
+	insertNewHead(&list, newNode);
 
-	// Display list	
-	count = getNodeCount(list);
-	for(i=0; i<count; i++) {
-		current = getNodeAt(list, i);
-		printf("list[%d]: %d\n", i, current->Data);
-	}
+	displayList(list);
 
-	// Insert after 3rd node
-	printf("\nInserting 3000 After [2]... \n\n");
+	printf("\nInserting 5000 after [2] ...\n");
 	current = getNodeAt(list, 2);
-	newnode = createNode(3000);
+	newNode = create(5000);
+	insertAfter(current, newNode);
 
-	insertAfter(current, newnode);
+	displayList(list);
 
-	// Display list	
-	count = getNodeCount(list);
-	for(i=0; i<count; i++) {
-		current = getNodeAt(list, i);
-		printf("list[%d]: %d\n", i, current->Data);
-	}
+	printf("sizeof(Node): %lu, sizeof(Node*): %lu\n", sizeof(Node), sizeof(Node*));
 
+	printf("insertBefore [1]\n");
+	current = getNodeAt(list, 1);
+	newNode = create(-555);
+	insertBefore(&list, current, newNode);
+	displayList(list);
 
-	// Remove all nodes from memmory
-	printf("\nDestroying list...\n");
-	for(i=0; i<count; i++) {
-		current = getNodeAt(list, 0);
-		if(current != NULL) {
-			removeNode(&list, current);
-			destroyNode(current);
-		}
-	}
-
+	printf("\nDestroying ... \n");
+	destroyAllNodes(&list);
+	displayList(list);
+	// count = getNodeCount(list);
+	// for(i=0;i<count;i++)
+	// {
+	// 	current = getNodeAt(list, 0);
+	// 	if(current != NULL) 
+	// 	{
+	// 		removeNode(&list, current);
+	// 		destroyNode(current);
+	// 	}
+	// }
 	return 0;
 }

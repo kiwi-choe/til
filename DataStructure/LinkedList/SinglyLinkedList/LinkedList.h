@@ -5,21 +5,23 @@
 #include <stdlib.h>
 
 typedef int ElementType;
-
-typedef struct tagNode
+typedef struct Node 
 {
 	ElementType Data;
-	struct tagNode* NextNode;
+	struct Node* Next;
 } Node;
 
-// Definition functions
-Node*	createNode(ElementType newData);
-void	destroyNode(Node* node);
-void	appendNode(Node** head, Node* newnode);	 
-void	insertAfter(Node* current, Node* newnode);
-void	insertNewHead(Node** head, Node* newhead);
-void	removeNode(Node** head, Node* remove);
-Node*	getNodeAt(Node* head, int location);
-int 	getNodeCount(Node* head);
+Node* create(ElementType newData);
+void destroyNode(Node* node);
+void insertAfter(Node* current, Node* newNode);
+Node* getNodeAt(Node* head, int location);
+int getNodeCount(Node* head);
+
+void append(Node** head, Node* newnode);
+void insertNewHead(Node** head, Node* newHead);
+void removeNode(Node** head, Node* remove);
+
+void insertBefore(Node** head, Node* current, Node* newHead);
+void destroyAllNodes(Node** list);
 
 #endif
