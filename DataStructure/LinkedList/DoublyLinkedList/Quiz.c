@@ -1,30 +1,28 @@
 #include "DoublyLinkedList.h"
 
-void printReverse(Node* head) {
 
-	Node* tail = NULL;
-	int i = 0;
-	int count = 0;
-
-	tail = head;
-	// find tail
-	count = getNodeCount(head);
-	printf("count: %d\n", count);
-
-	// find tail
-	while(tail->nextNode != NULL) {
-		tail = tail->nextNode;
+void printReverse(Node* head)
+{
+	if(head == NULL) 
+	{
+		return;
 	}
 
-	// while tail->prev != NULL, print
-	// for(i=0;i<count;i++) {
-		// printf("%d\n", tail->data);
-		// tail = tail->preNode;
-	// }
-	while(tail != NULL){
-		printf("%d <-> ",tail->data);
-		tail = tail->preNode;
+	// Find tail
+	Node* tail = head;
+	while(tail->NextNode != NULL)
+	{
+		tail = tail->NextNode;
 	}
+
+	// Start from tail to head
+	while(tail->PreNode != NULL)
+	{
+		printf("%d\n", tail->Data);
+		tail = tail->PreNode;
+	}
+	// tail == head location
+	printf("%d\n", tail->Data);
 }
 
 int main() 
@@ -36,23 +34,18 @@ int main()
 	int count = 0;
 
 	for(i=0;i<5;i++) {
-		newnode = createNode(i);
-		appendNode(&list, newnode);
+		newnode = create(i);
+		append(&list, newnode);
 	}
 
 	// Display list
 	count = getNodeCount(list);
 	for(i=0;i<count;i++) {
 		current = getNodeAt(list, i);
-		printf("List[%d]: %d\n", i, current->data);
+		printf("List[%d]: %d\n", i, current->Data);
 	}
 
-	printf("list: %d\n", list->data);
-	// printf("list->preNode: %d\n", list->preNode->data);
-	current = getNodeAt(list, 1);
-	printf("list[1]: %d\n", current->data);
-
-	// printReverse(list);
+	printReverse(list);
 
 	return 0;
 }

@@ -1,99 +1,118 @@
 #include "CircularDoublyLinkedList.h"
 
-Node* createNode(ElementType data) {
-	Node* newnode = (Node*)malloc(sizeof(Node));
+Node* create(ElementType data)
+{
+	Node* newNode = (Node*)malloc(sizeof(Node));
+	newNode->Data = data;
+	newNode->PreNode = NULL;
+	newNode->NextNode = NULL;
 
-	newnode->data = data;
-	newnode->prev = NULL;
-	newnode->next = NULL;
-
-	return newnode;
+	return newNode;
 }
 
-void destroyNode(Node* node) {
+void destroyNode(Node* node)
+{
 	free(node);
 }
 
-void appendNode(Node** head, Node* newnode) {
-	if((*head) == NULL) {
-		*head = newnode;
-		(*head)->next = *head;
-		(*head)->prev = *head;
+void append(Node** head, Node* newNode)
+{
+	if((*head) == NULL)
+	{
+		(*head) = newNode;
+		(*head)->NextNode = (*head);
+		(*head)->PreNode = (*head);
 	}
-	else {
-		// Inserting between head and tail
-		Node* tail = (*head)->prev;
+	else
+	{
+		// Insert between head and tail
+		Node* tail = (*head)->PreNode;
+		(*head)->PreNode = newNode;
+		tail->NextNode = newNode;
 
-		tail->next->prev = newnode;
-		tail->next = newnode;
-
-		newnode->next = *head;
-		newnode->prev = tail;
+		newNode->NextNode = (*head);
+		newNode->PreNode = tail;
 	}
 }
 
-void insertAfter(Node* current, Node* newnode) {
-	newnode->next = current->next;
-	newnode->prev = current;
+void insertAfter(Node* current, Node* newNode)
+{
+	newNode->NextNode = current->NextNode;
+	current->NextNode->PreNode = newNode;
 
-	current->next->prev = newnode;
-	current->next = newnode;
+	newNode->PreNode = current;
+	current->NextNode = newNode;
 }
 
-void removeNode(Node** head, Node* remove) {
-	if((*head) == remove) {
-		(*head)->prev->next = remove->next;
-		(*head)->next->prev = remove->prev;
+void removeNode(Node** head, Node* remove)
+{
+	if((*head) == remove)
+	{
+		(*head)->PreNode->NextNode = remove->NextNode;
+		(*head)->NextNode->PreNode = remove->PreNode;
 
-		*head = remove->next;
-	} 
-	else {
-		Node* tmp = remove;
-		remove->prev->next = tmp->next;
-		remove->next->prev = tmp->prev;
+		(*head) = remove->NextNode;
+	}
+	else
+	{
+		Node* temp = remove;
+		remove->PreNode->NextNode = remove->NextNode;
+		remove->NextNode->PreNode = remove->PreNode;
 	}
 
-	// Set pointer to NULL
-	remove->prev = NULL;
-	remove->next = NULL;
+	remove->PreNode = NULL;
+	remove->NextNode = NULL;
 }
 
-Node* getNodeAt(Node* head, int location) {
+Node* getNodeAt(Node* head, int location)
+{
 	Node* current = head;
-	while(current != NULL && (--location) >= 0) {
-		current = current->next;
+	while(current != NULL && (location--) > 0)
+	{
+		current = current->NextNode;
 	}
 	return current;
 }
 
-int getNodeCount(Node* head) {
-	int count = 0;
+int getNodeCount(Node* head)
+{
 	Node* current = head;
-	while(current != NULL) {
-		current = current->next;
+	int count = 0;
+	while(current != NULL)
+	{
+		current = current->NextNode;
 		count++;
-		// Coz it's circular Linked List
-		if(current == head) {
+		if(current == head)
 			break;
-		}
 	}
 	return count;
 }
 
-void printNode(Node* node) {
-
-	if(node->prev == NULL) {
-		printf("prev: NULL\n");
+void printNode(Node* node)
+{
+	if(node->PreNode == NULL)
+	{
+		printf("PreNode: NULL\n");
 	}
-	else {
-		printf("prev: %d\n", node->prev->data);
+	else
+	{
+		printf("PreNode: %d\n", node->PreNode->Data);
 	}
-	printf(" current: %d\n", node->data);
-
-	if(node->next == NULL) {
-		printf("next: NULL\n");
+	printf("current: %d\n", node->Data);
+	if(node->NextNode == NULL)
+	{
+		printf("NextNode: NULL\n");
 	}
-	else {
-		printf("next: %d\n", node->next->data);
+	else
+	{
+		printf("NextNode: %d\n", node->NextNode->Data);
 	}
 }
+
+// Node* getNodeAt(Node* head, int location) {
+// 	Node* current = head;
+// 	while(current != NULL && (--location) >= 0) {
+// 		current = current->next;
+// 	}
+// 	return current;
+// }

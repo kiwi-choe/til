@@ -1,78 +1,92 @@
 #include "DoublyLinkedList.h"
 
-Node* createNode(ElementType newData) {
-	Node* newnode = (Node*)malloc(sizeof(Node));
+Node* create(ElementType newData)
+{
+	Node* newNode = (Node*)malloc(sizeof(Node));
+	newNode->Data = newData;
+	newNode->PreNode = NULL;
+	newNode->NextNode = NULL;
 
-	newnode->data = newData;
-	newnode->preNode = NULL;
-	newnode->nextNode = NULL;
-
-	return newnode;
+	return newNode;
 }
 
-void destroyNode(Node* node) {
+void destroy(Node* node)
+{
 	free(node);
 }
 
-void appendNode(Node** head, Node* newnode) {
-	if((*head) == NULL) {
-		*head = newnode;
+void append(Node** head, Node* newNode)
+{
+	if((*head) == NULL)
+	{
+		(*head) = newNode;
 	}
-	else {
-		Node* tail = *head;
-		while(tail->nextNode != NULL) {
-			tail = tail->nextNode;
+	else
+	{
+		Node* tail = (*head);
+		while(tail->NextNode != NULL) 
+		{
+			tail = tail->NextNode;
 		}
-		tail->nextNode = newnode;
-		tail = newnode->preNode;
+		tail->NextNode = newNode;
+		newNode->PreNode = tail;
 	}
 }
 
-void insertAfter(Node* current, Node* newnode) {
-	newnode->preNode = current;
-	newnode->nextNode = current->nextNode;
-	if(current->nextNode != NULL) {
-		current->nextNode->preNode = newnode;
+void insertAfter(Node* current, Node* newNode)
+{
+	newNode->PreNode = current;
+	newNode->NextNode = current->NextNode;
+	if(current->NextNode != NULL) 
+	{
+		current->NextNode->PreNode = newNode;
 	}
-	current->nextNode = newnode;
+	current->NextNode = newNode;
 }
 
-void removeNode(Node** head, Node* remove) {
-	if((*head) == remove) {
-		*head = remove->nextNode;
-		if((*head) != NULL) {
-			(*head)->preNode = NULL;
+void removeNode(Node** head, Node* remove)
+{
+	if((*head) == remove) 
+	{
+		(*head) = remove->NextNode;
+		if((*head) != NULL)
+		{
+			(*head)->PreNode = NULL;
 		}
 	}
-	else {
-		// Node* tmp = remove;	// why store remove's address into tmp 
-		if(remove->preNode != NULL) {
-			// remove->preNode->nextNode = tmp->nextNode;
-			remove->preNode->nextNode = remove->nextNode;
+	else
+	{
+		Node* temp = remove;
+		if(remove->PreNode != NULL)
+		{
+			remove->PreNode->NextNode = temp->NextNode;
 		}
-		if(remove->nextNode != NULL) {
-			// remove->nextNode->preNode = tmp->preNode;
-			remove->nextNode->preNode = remove->preNode;
+		if(remove->NextNode != NULL)
+		{
+			remove->NextNode->PreNode = temp->PreNode;
 		}
 	}
-
-	remove->preNode = NULL;
-	remove->nextNode = NULL;
+	remove->PreNode = NULL;
+	remove->NextNode = NULL;
 }
 
-Node* getNodeAt(Node* head, int location) {
+Node* getNodeAt(Node* head, int location)
+{
 	Node* current = head;
-	while(current != NULL && (--location) >= 0) {
-		current = current->nextNode;
+	while(current != NULL && (location--) > 0)
+	{
+		current = current->NextNode;
 	}
 	return current;
 }
 
-int getNodeCount(Node* head) {
+int getNodeCount(Node* head)
+{
 	int count = 0;
 	Node* current = head;
-	while(current != NULL) {
-		current = current->nextNode;
+	while(current != NULL)
+	{
+		current = current->NextNode;
 		count++;
 	}
 	return count;

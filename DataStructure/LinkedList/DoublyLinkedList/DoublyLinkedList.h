@@ -1,21 +1,21 @@
-#ifndef DOUBLY_LINKEDLIST_H
-#define DOUBLY_LINKEDLIST_H
+#ifndef	DOUBLE_LINKEDLIST_H
+#define DOUBLE_LINKEDLIST_H
 
 #include <stdio.h>
 #include <stdlib.h>
 
 typedef int ElementType;
-
-typedef struct tagNode {
-	ElementType data;
-	struct tagNode* preNode;
-	struct tagNode* nextNode;
+typedef struct Node
+{
+	ElementType Data;
+	struct Node* PreNode;
+	struct Node* NextNode;
 } Node;
 
-Node* createNode(ElementType newData);
-void destroyNode(Node* node);
-void appendNode(Node** head, Node* newnode);
-void insertAfter(Node* current, Node* newnode);
+Node* create(ElementType newData);
+void destroy(Node* node);
+void append(Node** head, Node* newNode);
+void insertAfter(Node* current, Node* newNode);
 void removeNode(Node** head, Node* remove);
 Node* getNodeAt(Node* head, int location);
 int getNodeCount(Node* head);

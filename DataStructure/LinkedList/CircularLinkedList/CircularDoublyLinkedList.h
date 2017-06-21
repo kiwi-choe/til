@@ -7,14 +7,14 @@
 typedef int ElementType;
 
 typedef struct tagNode {
-	ElementType data;
-	struct tagNode* prev;
-	struct tagNode* next;
+	ElementType Data;
+	struct tagNode* PreNode;
+	struct tagNode* NextNode;
 } Node;
 
-Node* createNode(ElementType data);
+Node* create(ElementType data);
 void destroyNode(Node* node);
-void appendNode(Node** head, Node* newnode);
+void append(Node** head, Node* newnode);
 void insertAfter(Node* current, Node* newnode);
 void removeNode(Node** head, Node* remove);
 Node* getNodeAt(Node* head, int location);
