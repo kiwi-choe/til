@@ -5,7 +5,7 @@ int main()
 	int i = 100;
 	Queue* Queue;
 
-	create(&Queue, 10);
+	createQueue(&Queue, 10);
 
 	enqueue(Queue, 1);
 	enqueue(Queue, 2);
