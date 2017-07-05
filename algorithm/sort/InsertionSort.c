@@ -20,7 +20,7 @@ void insertionSort(int dataSet[], int len)
 	for(i=1;i<len;i++)
 	{
 		displayDataSet(dataSet, len);
-
+]
 		if(dataSet[i-1] > dataSet[i])
 		{
 			value = dataSet[i];
